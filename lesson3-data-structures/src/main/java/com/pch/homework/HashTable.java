@@ -18,7 +18,7 @@ public class HashTable<K, V> {
 
     private int initialCapacity = 16;
     private int size = 0;
-    private final Node<K,V>[] arr;
+    private Node<K, V>[] arr;
 
     @SuppressWarnings({"unchecked", "rawtype"})
     public HashTable() {
@@ -41,36 +41,84 @@ public class HashTable<K, V> {
      * @return old value or null
      */
     public V put(K key, V value) {
-        int hashKey = calculate(key);
-        if (arr[hashKey] == null) {
-            arr[hashKey] = new Node<>(key, value);
-        } else {
-            Node<K, V> node = arr[hashKey];
-            if (node.key.equals(key)) {
-                V oldValue = node.value;
-                node.value = value;
-                return oldValue;
-            } else {
 
-                while (node.next != null) {
-                    node = node.next;
-                    if (node.key.equals(key)) {
-                        V oldValue = node.value;
-                        node.value = value;
-                        return oldValue;
-                    }
-                }
+        if (key == null) {
+            return null;
+        }
 
-                node.next = new Node<>(key, value);
-            }
+        if (size >= arr.length) {
+            resize();
+        }
+
+        V v = putVal(key, value);
+
+        if (v != null) {
+            return v;
         }
 
         size++;
         return null;
+
+    }
+
+    public V putVal(K key, V value) {
+
+        int hashKey = calculate(key);
+        Node<K, V> node = arr[hashKey];
+
+        if (node == null) {
+            arr[hashKey] = new Node<>(key, value);
+        } else {
+
+            V v = checkAndReplace(key, value, node);
+            if (v != null) return v;
+
+            while (node.next != null) {
+                node = node.next;
+                v = checkAndReplace(key, value, node);
+                if (v != null) return v;
+            }
+
+            node.next = new Node<>(key, value);
+
+        }
+
+        return null;
+    }
+
+    private V checkAndReplace(K key, V value, Node<K, V> node) {
+        if (node.key.equals(key)) {
+            V oldValue = node.value;
+            node.value = value;
+            return oldValue;
+        }
+        return null;
+    }
+
+    @SuppressWarnings({"unchecked", "rawtype"})
+    private void resize() {
+        this.initialCapacity *= 2;
+        Node<K, V>[] oldArr = arr;
+        arr = new Node[initialCapacity];
+
+        for (Node<K, V> node : oldArr) {
+            while (node != null) {
+                putVal(node.key, node.value);
+                node = node.next;
+            }
+        }
     }
 
     private int calculate(K key) {
         return Math.abs(key.hashCode() % initialCapacity);
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
     }
 
     /**
@@ -82,11 +130,10 @@ public class HashTable<K, V> {
      */
     public void printTable() {
         for (int i = 0; i < arr.length; i++) {
-            Node<K, V> node = arr[i];
-            Node<K, V> current = node;
-            System.out.print(i+":");
+            Node<K, V> current = arr[i];
+            System.out.print(i + ":");
             while (current != null) {
-                System.out.printf("%s:%s", node.key, node.value);
+                System.out.printf("%s:%s", current.key, current.value);
                 if (current.next != null) {
                     System.out.print(" -> ");
                 }
@@ -95,5 +142,28 @@ public class HashTable<K, V> {
             }
             System.out.println();
         }
+        System.out.println();
+    }
+
+    public V get(K key) {
+
+        for (Node<K, V> node : arr) {
+            if (node != null) {
+                if (node.key.equals(key)) {
+                    return node.value;
+                }
+
+                while (node.next != null) {
+                    node = node.next;
+
+                    if (node.key.equals(key)) {
+                        return node.value;
+                    }
+
+                }
+            }
+        }
+
+        return null;
     }
 }
