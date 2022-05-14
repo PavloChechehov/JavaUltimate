@@ -1,5 +1,7 @@
 package com.pch.homework;
 
+import java.util.Objects;
+
 /**
  * A simple implementation of the Hash Table that allows storing a generic key-value pair. The table itself is based
  * on the array of {@link Node} objects.
@@ -41,10 +43,7 @@ public class HashTable<K, V> {
      * @return old value or null
      */
     public V put(K key, V value) {
-
-        if (key == null) {
-            return null;
-        }
+        Objects.requireNonNull(key);
 
         if (size >= arr.length) {
             resize();
@@ -61,9 +60,9 @@ public class HashTable<K, V> {
 
     }
 
-    public V putVal(K key, V value) {
+    private V putVal(K key, V value) {
 
-        int hashKey = calculate(key);
+        int hashKey = calculateHash(key);
         Node<K, V> node = arr[hashKey];
 
         if (node == null) {
@@ -87,7 +86,7 @@ public class HashTable<K, V> {
     }
 
     private V checkAndReplace(K key, V value, Node<K, V> node) {
-        if (node.key.equals(key)) {
+        if (Objects.equals(node.key, key)) {
             V oldValue = node.value;
             node.value = value;
             return oldValue;
@@ -109,7 +108,7 @@ public class HashTable<K, V> {
         }
     }
 
-    private int calculate(K key) {
+    private int calculateHash(K key) {
         return Math.abs(key.hashCode() % initialCapacity);
     }
 
@@ -165,5 +164,9 @@ public class HashTable<K, V> {
         }
 
         return null;
+    }
+
+    public boolean containsKey(K key) {
+        return get(key) != null;
     }
 }
