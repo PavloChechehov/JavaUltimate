@@ -13,6 +13,7 @@
         <module>lesson2-algorithms</module>
         <module>lesson3-data-structures</module>
         <module>java-fundamental-util</module>
+        <module>lesson4-java-library</module>
     </modules>
 
     <properties>
