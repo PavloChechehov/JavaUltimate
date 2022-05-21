@@ -1,5 +1,7 @@
 package com.pch;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Utils {
@@ -10,5 +12,13 @@ public class Utils {
             ints[i] = ThreadLocalRandom.current().nextInt(length);
         }
         return ints;
+    }
+
+    public static  List<Integer> generateList(int length) {
+        List<Integer> list = new ArrayList<>(length);
+        for (int i = 0; i < length; i++) {
+            list.add(ThreadLocalRandom.current().nextInt(length));
+        }
+        return list;
     }
 }
