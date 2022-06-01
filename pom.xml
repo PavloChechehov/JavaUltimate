@@ -15,6 +15,7 @@
         <module>java-fundamental-util</module>
         <module>lesson4-java-library</module>
         <module>lesson5-oop</module>
+        <module>lesson9-concurrency</module>
     </modules>
 
     <properties>

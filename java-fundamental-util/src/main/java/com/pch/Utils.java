@@ -14,7 +14,7 @@ public class Utils {
         return ints;
     }
 
-    public static  List<Integer> generateList(int length) {
+    public static List<Integer> generateList(int length) {
         List<Integer> list = new ArrayList<>(length);
         for (int i = 0; i < length; i++) {
             list.add(ThreadLocalRandom.current().nextInt(length));
