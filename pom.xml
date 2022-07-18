@@ -16,6 +16,7 @@
         <module>lesson4-java-library</module>
         <module>lesson5-oop</module>
         <module>lesson9-concurrency</module>
+        <module>lesson18-configuration</module>
     </modules>
 
     <properties>
