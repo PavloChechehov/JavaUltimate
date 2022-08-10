@@ -17,6 +17,7 @@
         <module>lesson5-oop</module>
         <module>lesson9-concurrency</module>
         <module>lesson13-servlet</module>
+        <module>lesson23-deadlock</module>
     </modules>
 
     <properties>
