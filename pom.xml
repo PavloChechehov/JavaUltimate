@@ -18,6 +18,7 @@
         <module>lesson9-concurrency</module>
         <module>lesson13-servlet</module>
         <module>lesson23-deadlock</module>
+        <module>lesson25-pool-data-source</module>
     </modules>
 
     <properties>
